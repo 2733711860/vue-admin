@@ -1,38 +1,28 @@
 import request from '@/utils/request'
-import { encryptedData } from '@/utils/encrypt'
-import { loginRSA, tokenName } from '@/config'
+const baseUrl = 'https://www.fastmock.site/mock/b4c158de373dc18296a691d9a46c256e/api'
 
-export async function login(data) {
-  if (loginRSA) {
-    data = await encryptedData(data)
-  }
+// 登录
+export function login(data) {
   return request({
-    url: '/login',
+    url: `${baseUrl}/user/login`,
     method: 'post',
-    data,
+    data
   })
 }
 
-export function getUserInfo(accessToken) {
+// 根据token获取用户信息
+export function getInfo(token) {
   return request({
-    url: '/userInfo',
-    method: 'post',
-    data: {
-      [tokenName]: accessToken,
-    },
+    url: `${baseUrl}/get/user/info`,
+    method: 'get',
+    params: { token }
   })
 }
 
+// 登出接口
 export function logout() {
   return request({
-    url: '/logout',
-    method: 'post',
-  })
-}
-
-export function register() {
-  return request({
-    url: '/register',
-    method: 'post',
+    url: `${baseUrl}/user/logout`,
+    method: 'post'
   })
 }
